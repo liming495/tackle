@@ -1,7 +1,84 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.share</groupId>
-  <artifactId>tackle</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>tackle</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.share</groupId>
+	<artifactId>tackle</artifactId>
+	<version>0.0.1</version>
+	<name>tackle</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>compile</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>  <!-- “编码 GBK 的不可映射字符”问题的解决 -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.7.2</version>
+				<configuration>
+					<includes>
+						<!--不写匹配默认规则,TestSuit结尾，test开头的方法 -->
+						<include>**/*TestSuit.java</include>   <!-- 两个星号**用来匹配任意路径，一个星号*用来获取除路径风格符外的0个或多个字符 -->
+					</includes>
+					<excludes>
+						<exclude>**/CollectionBillTestCase.java</exclude>
+						<exclude>**/PaymentBillTestCase.java</exclude>
+					</excludes>
+					<skip>false</skip>  <!-- 略过单元测试 -->
+					<testFailureIgnore>true</testFailureIgnore> <!-- 当Maven 遇到一个测试失败，它默认的行为是停止当前的构建。 如果你希望继续构建项目，即使 Surefire 插件遇到了失败的单元测试，你就需要设置	Surefire 的testFailureIgnore 这个配置属性为 true -->
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<!--打包进XML等文件，排除java及版本控制文件 -->
+			<resource>
+				<directory>src/main/java</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/.svn/*</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>
